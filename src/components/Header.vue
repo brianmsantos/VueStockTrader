@@ -9,10 +9,13 @@
                         <router-link to="/portfolio" activeClass="active" tag="li"><a>Portfolio</a></router-link>
                         <router-link to="/stocks" activeClass="active" tag="li"><a>Stocks</a></router-link>
                     </ul>
-                    <strong class="navbar-text float-right">Funds: {{ funds }}</strong>
+                    <strong class="navbar-text float-right">Funds: {{ funds | currency }}</strong>
                     <ul class="nav navbar-nav ml-auto">
-                        <li><a href="#">End Day</a></li>
-                        <li class="dropdown">
+                        <li><a href="#" @click="endDay">End Day</a></li>
+                        <li 
+                            class="dropdown" 
+                            :class="{open: isDropdownOpen}"
+                            @click="isDropdownOpen = !isDropdownOpen">
                             <a 
                                     href="#"
                                     class="dropdown-toggle"
@@ -33,10 +36,26 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+
 export default {
+    data() {
+        return {
+            isDropdownOpen: false,
+        }
+    },
     computed: {
         funds() {
             return this.$store.getters.funds;
+        }
+    },
+    methods: {
+        ...mapActions([
+            'randomizeStocks'
+        ]),
+        endDay(){  
+            console.log(1);
+            this.randomizeStocks();
         }
     }
 }
