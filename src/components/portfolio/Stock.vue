@@ -20,8 +20,8 @@
                     <button
                         class="btn btn-success"
                         @click="sellStock"
-                       :disabled="quantity <= 0"
-                    >Sell
+                       :disabled="insufficientQuantity || quantity <= 0"
+                    >{{ insufficientQuantity ? 'Not enough Stocks' : 'Sell' }}
                     </button>
                 </div>
             </div>
@@ -37,6 +37,11 @@ export default {
     data() {
         return {
             quantity: 0
+        }
+    },
+    computed: {
+        insufficientQuantity() {
+            return this.quantity > this.stock.quantity;
         }
     },
     methods: {
